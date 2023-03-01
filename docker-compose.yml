@@ -1,0 +1,33 @@
+version: '3.9'
+
+services:
+  service1:
+    image: httpd
+    ports:
+      - "81:80"
+    volumes:
+      - ./service1/public_html:/usr/local/apache2/htdocs/
+
+  service2:
+    image: httpd
+    ports:
+      - "82:80"
+    volumes:
+      - ./service2/public_html:/usr/local/apache2/htdocs/
+
+  service3:
+    image: httpd
+    ports:
+      - "83:80"
+    volumes:
+      - ./service3/public_html:/usr/local/apache2/htdocs/
+
+  load_balancer:
+    image: nginx
+    ports:
+      - "84:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - service1
+      - service2
